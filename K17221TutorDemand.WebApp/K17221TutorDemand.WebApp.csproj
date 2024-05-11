@@ -25,4 +25,9 @@
     <ProjectReference Include="..\K17221TutorDemand.DataAccess\K17221TutorDemand.DataAccess.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Data\" />
+    <Folder Include="Utils\" />
+  </ItemGroup>
+
 </Project>

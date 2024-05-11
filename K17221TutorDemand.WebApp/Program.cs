@@ -1,5 +1,4 @@
 using K17221TutorDemand.WebApp.Extensions;
-using K17221TutorDemand.WebApp.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -12,18 +11,10 @@ builder.Services.RegisterMapsterConfiguration();
 builder.Services.AddFluentEmail(builder.Configuration);
 
 
-// Add Application Scoped
-builder.Services.AddScoped<DatabaseInitializer>();
+
 
 
 var app = builder.Build();
-
-// Hook into application lifetime events and trigger only application fully started
-app.Lifetime.ApplicationStarted.Register(async () =>
-{
-    // Database Initialiser
-    await app.InitializeDatabaseAsync();
-});
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())

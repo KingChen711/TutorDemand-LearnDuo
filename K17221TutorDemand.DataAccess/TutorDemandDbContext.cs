@@ -1,10 +1,8 @@
-﻿using System.Reflection;
-using K17221TutorDemand.DataAccess.Configurations;
+﻿using K17221TutorDemand.DataAccess.Configurations;
 using K17221TutorDemand.Models.Entities;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Options;
 
 namespace K17221TutorDemand.DataAccess;
 
@@ -18,12 +16,6 @@ public class TutorDemandDbContext : IdentityDbContext<User, Role, int>
     {
     }
 
-    public DbSet<Car>? Cars { get; set; }
-    public DbSet<CarStatus>? CarStatuses { get; set; }
-    public DbSet<Contract>? Contracts { get; set; }
-    public DbSet<ContractStatus>? ContractStatuses { get; set; }
-    public DbSet<Feedback>? Feedbacks { get; set; }
-    public DbSet<Payment>? Payments { get; set; }
     //không cần tạo DbSet cho User và Role
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -47,12 +39,6 @@ public class TutorDemandDbContext : IdentityDbContext<User, Role, int>
     {
         base.OnModelCreating(modelBuilder);
 
-        modelBuilder.ApplyConfiguration(new CarConfiguration());
-        modelBuilder.ApplyConfiguration(new CarStatusConfiguration());
-        modelBuilder.ApplyConfiguration(new ContractConfiguration());
-        modelBuilder.ApplyConfiguration(new ContractStatusConfiguration());
-        modelBuilder.ApplyConfiguration(new FeedbackConfiguration());
-        modelBuilder.ApplyConfiguration(new PaymentConfiguration());
         modelBuilder.ApplyConfiguration(new RoleConfiguration());
         modelBuilder.ApplyConfiguration(new UserConfiguration());
     }

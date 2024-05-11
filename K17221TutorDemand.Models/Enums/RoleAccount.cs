@@ -1,8 +1,9 @@
-﻿namespace K17221TutorDemand.Models.Enums;
+﻿// ReSharper disable InconsistentNaming
+namespace K17221TutorDemand.Models.Enums;
 
 public static class RoleAccount
 {
-    public const string CUSTOMER = "Customer";
+    public const string STUDENT = "Student";
+    public const string TUTOR = "Tutor";
     public const string ADMINISTRATOR = "Administrator";
-    public const string EMPLOYEE = "Employee";
 }
