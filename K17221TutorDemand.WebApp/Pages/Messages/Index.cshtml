@@ -1,0 +1,8 @@
+﻿@page
+@using System.Security.Claims
+@model K17221TutorDemand.WebApp.Pages.Messages.Index
+
+<div>This is messages page</div>
+<div>Bạn: @User.FindFirstValue("UserId")</div>
+<div>Số Hub của bạn: @Model.Hubs.Count</div>
+<div>Hub đang kích hoạt: @(Model.ActiveHub is not null ? Model.ActiveHub.HubId : "Không có")</div>

@@ -9,7 +9,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "K17221TutorDemand.DataAcces
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "K17221TutorDemand.Models", "K17221TutorDemand.Models\K17221TutorDemand.Models.csproj", "{FB420BC0-F447-4835-B4F6-41048179F41E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "K17221TutorDemand.WebApp", "K17221TutorDemand.WebApp\K17221TutorDemand.WebApp.csproj", "{461E0484-9E51-4836-906E-849FE4B1C273}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "K17221TutorDemand.WebApp", "K17221TutorDemand.WebApp\K17221TutorDemand.WebApp.csproj", "{461E0484-9E51-4836-906E-849FE4B1C273}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

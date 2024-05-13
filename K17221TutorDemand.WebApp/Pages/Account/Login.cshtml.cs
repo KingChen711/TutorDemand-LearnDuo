@@ -8,6 +8,8 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using System.ComponentModel.DataAnnotations;
+using System.Security.Claims;
 
 namespace K17221TutorDemand.WebApp.Pages.Account
 {
@@ -103,11 +105,18 @@ namespace K17221TutorDemand.WebApp.Pages.Account
 
             if (ModelState.IsValid)
             {
-                // This doesn't count login failures towards account lockout
-                // To enable password failures to trigger account lockout, set lockoutOnFailure: true
-                var result = await _signInManager.PasswordSignInAsync(Input.Email, Input.Password, Input.RememberMe, lockoutOnFailure: false);
+                var user = await _signInManager.UserManager.FindByNameAsync(Input.Email);
+                if (user == null)
+                {
+                    ModelState.AddModelError(string.Empty, "User doesn't exist.");
+                    return Page();
+                }
+
+                var result = await _signInManager.CheckPasswordSignInAsync(user, Input.Password, lockoutOnFailure: false);
                 if (result.Succeeded)
                 {
+                    var customClaims = new[] { new Claim("UserId", user.UserId.ToString()) };
+                    await _signInManager.SignInWithClaimsAsync(user, Input.RememberMe, customClaims);
                     _logger.LogInformation("User logged in.");
                     return LocalRedirect(returnUrl);
                 }
