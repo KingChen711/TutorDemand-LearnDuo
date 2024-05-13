@@ -118,8 +118,7 @@ namespace K17221TutorDemand.WebApp.Areas.Identity.Pages.Account
                 {
                     _logger.LogInformation("User created a new account with password.");
 
-                    //TODO:Need to consider, maybe when register, user should select their role: student or tutor
-                    await _userManager.AddToRoleAsync(user, RoleAccount.STUDENT);
+                    await _userManager.AddToRoleAsync(user, RoleAccount.Customer.ToString());
 
                     var userId = await _userManager.GetUserIdAsync(user);
                     var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
