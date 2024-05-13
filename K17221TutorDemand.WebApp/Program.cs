@@ -10,10 +10,6 @@ builder.Services.ConfigureServiceFactory();
 builder.Services.RegisterMapsterConfiguration();
 builder.Services.AddFluentEmail(builder.Configuration);
 
-
-
-
-
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
