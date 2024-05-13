@@ -3,5 +3,6 @@
 public interface IUnitOfWork
 {
     IHubRepository Hub { get; }
+    IUserRepository User { get; }
     Task SaveAsync();
 }

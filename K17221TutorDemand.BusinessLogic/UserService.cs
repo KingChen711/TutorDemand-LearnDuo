@@ -1,20 +1,20 @@
 ﻿using K17221TutorDemand.BusinessLogic.Abstractions;
+using K17221TutorDemand.DataAccess.Abstractions;
 using K17221TutorDemand.Models.Entities;
-using Microsoft.AspNetCore.Identity;
 
 namespace K17221TutorDemand.BusinessLogic;
 
 public class UserService : IUserService
 {
-    private readonly UserManager<User> _userManager;
+    private readonly IUnitOfWork _unitOfWork;
 
-    public UserService(UserManager<User> userManager)
+    public UserService(IUnitOfWork unitOfWork)
     {
-        _userManager = userManager;
+        _unitOfWork = unitOfWork;
     }
 
-    public Task<User?> GetCurrentUser()
+    public async Task<User?> GetUserById(Guid userId, bool trackChanges)
     {
-        throw new NotImplementedException();
+        return await _unitOfWork.User.GetUserById(userId, trackChanges);
     }
 }

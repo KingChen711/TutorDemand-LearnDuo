@@ -33,7 +33,7 @@ namespace K17221TutorDemand.WebApp.Extensions
             TypeAdapterConfig<Hub, HubWithLastMessageDto>
                 .NewConfig()
                 .Map(dest => dest.LastMessage,
-                    src => src.Messages.ToList().IsNullOrEmpty()
+                    src => src.Messages.Count != 0
                         ? src.Messages.ToList()[0].Adapt<MessageWithSenderDto>()
                         : null);
 

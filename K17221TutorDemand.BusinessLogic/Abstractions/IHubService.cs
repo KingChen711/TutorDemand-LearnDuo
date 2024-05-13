@@ -5,5 +5,7 @@ namespace K17221TutorDemand.BusinessLogic.Abstractions;
 
 public interface IHubService
 {
-    Task<IEnumerable<HubWithLastMessageDto>> GetUserHubs(Guid userId);
+    Task<List<HubWithLastMessageDto>> GetUserHubs(Guid userId);
+    Task<Guid?> GetHubIdByUserIds(Guid userId1, Guid userId2);
+    Task<Hub> CreateHub(Guid userId1, Guid userId2);
 }

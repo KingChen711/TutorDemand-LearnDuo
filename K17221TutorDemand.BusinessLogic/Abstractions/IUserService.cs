@@ -4,5 +4,5 @@ namespace K17221TutorDemand.BusinessLogic.Abstractions;
 
 public interface IUserService
 {
-    Task<User?> GetCurrentUser();
+    Task<User?> GetUserById(Guid userId, bool trackChanges);
 }

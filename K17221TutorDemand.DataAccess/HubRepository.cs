@@ -31,4 +31,21 @@ public class HubRepository : GenericRepository<Hub>, IHubRepository
 
         return user.Hubs;
     }
+
+    public async Task<Guid?> GetHubIdByUserIds(Guid userId1, Guid userId2)
+    {
+        var hub = await FindByCondition(
+                h =>
+                    h.Users.Select(u => u.UserId).Contains(userId1) &&
+                    h.Users.Select(u => u.UserId).Contains(userId2),
+                false)
+            .SingleOrDefaultAsync();
+
+        return hub?.HubId;
+    }
+
+    public void CreateHub(Hub hub)
+    {
+        Create(hub);
+    }
 }

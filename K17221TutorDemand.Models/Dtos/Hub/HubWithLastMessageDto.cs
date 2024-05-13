@@ -30,6 +30,5 @@ public record MessageWithSenderDto
     public DateTime CreatedAt { get; set; }
 
     public bool IsSeen { get; set; } = false;
-
     public string SenderName { get; set; } = null!;
 }
