@@ -19,7 +19,7 @@ public class Index : PageModel
     }
 
     public List<HubWithLastMessageDto> Hubs = [];
-    public Hub? ActiveHub;
+    public HubDetailDto? ActiveHub;
 
     public async Task<IActionResult> OnGetAsync(Guid? hubId)
     {
@@ -41,6 +41,21 @@ public class Index : PageModel
 
         //hubId null is not the problem, just using the last hub
         var activeHubId = hubId ?? Hubs[0].HubId;
+
+        try
+        {
+            ActiveHub = await _service.Hub.GetHubDetailById(activeHubId, userId);
+        }
+        catch (Exception e)
+        {
+            //error when user not belong to the hub
+            return NotFound();
+        }
+
+        if (ActiveHub is null)
+        {
+            return NotFound();
+        }
 
         return Page();
     }

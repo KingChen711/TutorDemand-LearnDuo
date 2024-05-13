@@ -1,4 +1,5 @@
-﻿using K17221TutorDemand.Models.Entities;
+﻿using K17221TutorDemand.Models.Dtos.User;
+using K17221TutorDemand.Models.Entities;
 
 namespace K17221TutorDemand.Models.Dtos.Hub;
 
@@ -30,5 +31,6 @@ public record MessageWithSenderDto
     public DateTime CreatedAt { get; set; }
 
     public bool IsSeen { get; set; } = false;
-    public string SenderName { get; set; } = null!;
+
+    public UserWithProfileDto Sender { get; set; } = null!;
 }

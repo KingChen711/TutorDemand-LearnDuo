@@ -3,6 +3,7 @@ using K17221TutorDemand.BusinessLogic.Abstractions;
 using K17221TutorDemand.DataAccess;
 using K17221TutorDemand.DataAccess.Abstractions;
 using K17221TutorDemand.Models.Dtos.Hub;
+using K17221TutorDemand.Models.Dtos.User;
 using K17221TutorDemand.Models.Entities;
 using K17221TutorDemand.Models.SettingModels;
 using Mapster;
@@ -37,9 +38,12 @@ namespace K17221TutorDemand.WebApp.Extensions
                         ? src.Messages.ToList()[0].Adapt<MessageWithSenderDto>()
                         : null);
 
-            TypeAdapterConfig<Message, MessageWithSenderDto>
+            TypeAdapterConfig<Hub, HubDetailDto>
                 .NewConfig()
-                .Map(dest => dest.SenderName, src => src.Sender.FullName);
+                .Map(dest => dest.OtherUser,
+                    src => src.Users.Count != 0
+                        ? src.Users.ToList()[0].Adapt<UserWithProfileDto>()
+                        : null);
         }
 
         public static void ConfigureIdentity(this IServiceCollection services)

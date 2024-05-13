@@ -6,5 +6,6 @@ public interface IHubRepository : IGenericRepository<Hub>
 {
     Task<IEnumerable<Hub>> GetUserHubs(Guid userId);
     Task<Guid?> GetHubIdByUserIds(Guid userId1, Guid userId2);
-    void CreateHub(Hub hub);
+    Task<bool> CheckUserBelongToHub(Guid hubId, Guid userId);
+    Task<Hub?> GetHubDetailById(Guid hubId, Guid userId);
 }

@@ -3,7 +3,6 @@ using K17221TutorDemand.DataAccess.Abstractions;
 using K17221TutorDemand.Models.Dtos.Hub;
 using K17221TutorDemand.Models.Entities;
 using Mapster;
-using Microsoft.EntityFrameworkCore;
 
 namespace K17221TutorDemand.BusinessLogic;
 
@@ -34,8 +33,8 @@ public class HubService : IHubService
 
     public async Task<Hub> CreateHub(Guid userId1, Guid userId2)
     {
-        var user1 = await _unitOfWork.User.GetUserById(userId1, true)!;
-        var user2 = await _unitOfWork.User.GetUserById(userId2, true)!;
+        var user1 = await _unitOfWork.User.GetUserById(userId1, true);
+        var user2 = await _unitOfWork.User.GetUserById(userId2, true);
 
         if (user1 is null || user2 is null)
         {
@@ -43,7 +42,7 @@ public class HubService : IHubService
         }
 
         var hub = new Hub();
-        _unitOfWork.Hub.CreateHub(hub);
+        _unitOfWork.Hub.Create(hub);
         await _unitOfWork.SaveAsync();
 
         user1.Hubs.Add(hub);
@@ -51,6 +50,18 @@ public class HubService : IHubService
         await _unitOfWork.SaveAsync();
 
         return hub;
+    }
+
+    public async Task<HubDetailDto?> GetHubDetailById(Guid hubId, Guid userId)
+    {
+        if (!await _unitOfWork.Hub.CheckUserBelongToHub(hubId, userId))
+        {
+            throw new Exception("User not belong to this hub");
+        }
+
+        var hub = await _unitOfWork.Hub.GetHubDetailById(hubId, userId);
+        
+        return hub.Adapt<HubDetailDto>();
     }
 
     private async Task<bool> CheckExistUsers(Guid userId1, Guid userId2)

@@ -6,46 +6,63 @@ namespace K17221TutorDemand.DataAccess;
 
 public class HubRepository : GenericRepository<Hub>, IHubRepository
 {
-    private readonly TutorDemandDbContext _context;
-
     public HubRepository(TutorDemandDbContext context) : base(context)
     {
-        _context = context;
     }
 
     public async Task<IEnumerable<Hub>> GetUserHubs(Guid userId)
     {
-        var user = await _context.Users
-            .AsNoTracking()
-            .Where(u => u.UserId == userId)
-            .Include(u =>
-                    u.Hubs
-                        .OrderByDescending(h => h.LastMessageAt)
-                        .Take(20) //Get max 20 recent conservation, another will be get by client side with infinity scrolling technique 
-            )
-            .ThenInclude(h => h.Messages.OrderByDescending(m => m.CreatedAt).Take(1)) //take the last message
-            .ThenInclude(m => m.Sender)
-            .FirstOrDefaultAsync();
+        var hubs = await
+            FindByCondition(
+                    h =>
+                        h.Users.Select(u => u.UserId).Contains(userId), false
+                )
+                .OrderByDescending(h => h.LastMessageAt)
+                .Take(20) //Get max 20 recent conservation, another will be get by client side with infinity scrolling technique 
+                .Include(h => h.Messages.OrderByDescending(m => m.CreatedAt).Take(1))
+                .ThenInclude(m => m.Sender)
+                .ThenInclude(u => u.Profile)
+                .ToListAsync();
 
-        if (user is null) return [];
-
-        return user.Hubs;
+        return hubs;
     }
 
     public async Task<Guid?> GetHubIdByUserIds(Guid userId1, Guid userId2)
     {
-        var hub = await FindByCondition(
-                h =>
-                    h.Users.Select(u => u.UserId).Contains(userId1) &&
-                    h.Users.Select(u => u.UserId).Contains(userId2),
-                false)
-            .SingleOrDefaultAsync();
+        var hub = await
+            FindByCondition(
+                    h =>
+                        h.Users.Select(u => u.UserId).Contains(userId1) &&
+                        h.Users.Select(u => u.UserId).Contains(userId2),
+                    false)
+                .SingleOrDefaultAsync();
 
         return hub?.HubId;
     }
 
-    public void CreateHub(Hub hub)
+    public async Task<bool> CheckUserBelongToHub(Guid hubId, Guid userId)
     {
-        Create(hub);
+        var hub = await
+            FindByCondition(h => h.HubId == hubId, false)
+                .Include(h => h.Users)
+                .FirstOrDefaultAsync();
+
+        return hub?.Users.Select(u => u.UserId).Contains(userId) ?? false;
+    }
+
+    public async Task<Hub?> GetHubDetailById(Guid hubId, Guid userId)
+    {
+        var hub = await
+            FindByCondition(h => h.HubId == hubId, false)
+                .Include(h => h.Users.Where(u => u.UserId != userId)) //get the other user
+                .ThenInclude(u => u.Profile)
+                .Include(h =>
+                        h.Messages
+                            .OrderByDescending(m => m.CreatedAt)
+                            .Take(30) //just take the first 30 messages, using infinity scrolling technique for load more
+                )
+                .FirstOrDefaultAsync();
+
+        return hub;
     }
 }

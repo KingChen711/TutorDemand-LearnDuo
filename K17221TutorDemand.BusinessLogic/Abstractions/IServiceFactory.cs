@@ -5,5 +5,6 @@ namespace K17221TutorDemand.BusinessLogic.Abstractions;
 public interface IServiceFactory
 {
     IHubService Hub { get; }
+    IProfileService Profile { get; }
     IEmailSender Email { get; }
 }
