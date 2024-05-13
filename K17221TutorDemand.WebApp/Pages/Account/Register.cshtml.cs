@@ -3,6 +3,9 @@
 
 #nullable disable
 
+using System.ComponentModel.DataAnnotations;
+using System.Text;
+using System.Text.Encodings.Web;
 using K17221TutorDemand.BusinessLogic.Abstractions;
 using K17221TutorDemand.Models.Entities;
 using K17221TutorDemand.Models.Enums;
@@ -11,9 +14,6 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
-using System.ComponentModel.DataAnnotations;
-using System.Text;
-using System.Text.Encodings.Web;
 
 namespace K17221TutorDemand.WebApp.Pages.Account
 {
