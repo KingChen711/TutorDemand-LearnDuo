@@ -3,9 +3,6 @@
 
 #nullable disable
 
-using System.ComponentModel.DataAnnotations;
-using System.Text;
-using System.Text.Encodings.Web;
 using K17221TutorDemand.BusinessLogic.Abstractions;
 using K17221TutorDemand.Models.Entities;
 using K17221TutorDemand.Models.Enums;
@@ -14,6 +11,9 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
+using System.ComponentModel.DataAnnotations;
+using System.Text;
+using System.Text.Encodings.Web;
 
 namespace K17221TutorDemand.WebApp.Pages.Account
 {
@@ -69,7 +69,11 @@ namespace K17221TutorDemand.WebApp.Pages.Account
             ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
             ///     directly from your code. This API may change or be removed in future releases.
             /// </summary>
-            [Required]
+            [Required(ErrorMessage = "Tên bắt buộc")]
+            [Display(Name = "Tên")]
+            public string FullName { get; set; }
+
+            [Required(ErrorMessage = "Email bắt buộc")]
             [EmailAddress]
             [Display(Name = "Email")]
             public string Email { get; set; }
@@ -78,11 +82,11 @@ namespace K17221TutorDemand.WebApp.Pages.Account
             ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
             ///     directly from your code. This API may change or be removed in future releases.
             /// </summary>
-            [Required]
-            [StringLength(100, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.",
+            [Required(ErrorMessage = "Mật khẩu bắt buộc")]
+            [StringLength(100, ErrorMessage = "Mật khẩu ít nhất 6 kí tự và tối đa 100 kí tự",
                 MinimumLength = 6)]
             [DataType(DataType.Password)]
-            [Display(Name = "Password")]
+            [Display(Name = "Mật khẩu")]
             public string Password { get; set; }
 
             /// <summary>
@@ -90,8 +94,8 @@ namespace K17221TutorDemand.WebApp.Pages.Account
             ///     directly from your code. This API may change or be removed in future releases.
             /// </summary>
             [DataType(DataType.Password)]
-            [Display(Name = "Confirm password")]
-            [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
+            [Display(Name = "Xác nhận mật khẩu")]
+            [Compare("Password", ErrorMessage = "Không khớp với mật khẩu")]
             public string ConfirmPassword { get; set; }
         }
 
@@ -109,6 +113,7 @@ namespace K17221TutorDemand.WebApp.Pages.Account
             if (ModelState.IsValid)
             {
                 var user = CreateUser();
+                user.FullName = Input.FullName;
 
                 await _userStore.SetUserNameAsync(user, Input.Email, CancellationToken.None);
                 await _emailStore.SetEmailAsync(user, Input.Email, CancellationToken.None);

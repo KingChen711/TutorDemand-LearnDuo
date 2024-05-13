@@ -12,6 +12,7 @@
 
   <ItemGroup>
     <Folder Include="Attributes\" />
+    <Folder Include="Dtos\Message\" />
   </ItemGroup>
 
 </Project>

@@ -1,10 +1,15 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using System.ComponentModel.DataAnnotations;
+using Microsoft.AspNetCore.Identity;
 
 namespace K17221TutorDemand.Models.Entities;
 
 public class User : IdentityUser<int>
 {
     public Guid UserId { get; set; }
+
+    [Required]
+    [MaxLength(50, ErrorMessage = "Tên tối đa 50 kí tự")]
+    public string FullName { get; set; } = null!;
 
     //navigator
     public Profile Profile { get; set; } = null!;
@@ -14,5 +19,3 @@ public class User : IdentityUser<int>
     public ICollection<Message> ReceivedMessages = [];
     public ICollection<Message> SendMessages = [];
 }
-
-

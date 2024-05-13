@@ -2,5 +2,6 @@
 
 public interface IUnitOfWork
 {
+    IHubRepository Hub { get; }
     Task SaveAsync();
 }

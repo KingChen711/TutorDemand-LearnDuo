@@ -8,6 +8,7 @@ namespace K17221TutorDemand.BusinessLogic;
 public class ServiceFactory : IServiceFactory
 {
     private readonly Lazy<IEmailSender> _emailService;
+    private readonly Lazy<IHubService> _hubService;
 
     public ServiceFactory(
         IUnitOfWork unitOfWork,
@@ -15,7 +16,9 @@ public class ServiceFactory : IServiceFactory
     )
     {
         _emailService = new Lazy<IEmailSender>(() => new EmailService(fluentEmail));
+        _hubService = new Lazy<IHubService>(() => new HubService(unitOfWork));
     }
 
     public IEmailSender Email => _emailService.Value;
+    public IHubService Hub => _hubService.Value;
 }

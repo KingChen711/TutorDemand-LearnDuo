@@ -2,10 +2,13 @@
 using K17221TutorDemand.BusinessLogic.Abstractions;
 using K17221TutorDemand.DataAccess;
 using K17221TutorDemand.DataAccess.Abstractions;
+using K17221TutorDemand.Models.Dtos.Hub;
 using K17221TutorDemand.Models.Entities;
 using K17221TutorDemand.Models.SettingModels;
+using Mapster;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 
 namespace K17221TutorDemand.WebApp.Extensions
 {
@@ -27,14 +30,16 @@ namespace K17221TutorDemand.WebApp.Extensions
 
         public static void RegisterMapsterConfiguration(this IServiceCollection _)
         {
-            // Company
-            //TypeAdapterConfig<Company, CompanyDto>
-            //    .NewConfig()
-            //    .Map(dest => dest.FullAddress, src => string.Join(' ', src.Address, src.Country));
+            TypeAdapterConfig<Hub, HubWithLastMessageDto>
+                .NewConfig()
+                .Map(dest => dest.LastMessage,
+                    src => src.Messages.ToList().IsNullOrEmpty()
+                        ? src.Messages.ToList()[0].Adapt<MessageWithSenderDto>()
+                        : null);
 
-            //TypeAdapterConfig<CompanyUpdateDto, Company>
-            //    .NewConfig()
-            //    .IgnoreNullValues(true);
+            TypeAdapterConfig<Message, MessageWithSenderDto>
+                .NewConfig()
+                .Map(dest => dest.SenderName, src => src.Sender.FullName);
         }
 
         public static void ConfigureIdentity(this IServiceCollection services)
