@@ -1,9 +1,13 @@
-﻿namespace K17221TutorDemand.Models.Enums;
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace K17221TutorDemand.Models.Enums;
 
 public enum RoleAccount
 {
-    Customer,
+    Student,
     Tutor,
     Moderator,
-    Administrator
+    Administrator,
+    //[Display(Name = "System Handler")]
+    SystemHandler
 }

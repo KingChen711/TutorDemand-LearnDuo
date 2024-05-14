@@ -7,6 +7,17 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Data\**" />
+    <Compile Remove="Utils\**" />
+    <Content Remove="Data\**" />
+    <Content Remove="Utils\**" />
+    <EmbeddedResource Remove="Data\**" />
+    <EmbeddedResource Remove="Utils\**" />
+    <None Remove="Data\**" />
+    <None Remove="Utils\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="8.0.4" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.4">
       <PrivateAssets>all</PrivateAssets>
@@ -23,11 +34,6 @@
   <ItemGroup>
     <ProjectReference Include="..\K17221TutorDemand.BusinessLogic\K17221TutorDemand.BusinessLogic.csproj" />
     <ProjectReference Include="..\K17221TutorDemand.DataAccess\K17221TutorDemand.DataAccess.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Data\" />
-    <Folder Include="Utils\" />
   </ItemGroup>
 
 </Project>
