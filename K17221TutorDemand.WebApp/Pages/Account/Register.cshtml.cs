@@ -123,7 +123,7 @@ namespace K17221TutorDemand.WebApp.Pages.Account
                 {
                     _logger.LogInformation("User created a new account with password.");
 
-                    await _userManager.AddToRoleAsync(user, RoleAccount.Customer.ToString());
+                    await _userManager.AddToRoleAsync(user, RoleAccount.Student.ToString());
                     await _service.Profile.CreateDefaultProfile(user.UserId);
 
                     var userId = await _userManager.GetUserIdAsync(user);
