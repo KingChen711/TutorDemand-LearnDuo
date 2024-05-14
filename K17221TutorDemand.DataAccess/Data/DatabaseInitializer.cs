@@ -101,7 +101,7 @@ namespace K17221TutorDemand.DataAccess.Data
 
                 // Moderators
                 var moderatorEmails = new List<string> { "moderator@localhost.com", "moderator1@localhost.com" };
-                await SeedUsersAsync(adminEmails, RoleAccount.Moderator);
+                await SeedUsersAsync(moderatorEmails, RoleAccount.Moderator);
 
                 // Tutors
                 var tutorEmails = Enumerable.Range(1, 5).Select(i => $"tutor{i}@localhost.com");
