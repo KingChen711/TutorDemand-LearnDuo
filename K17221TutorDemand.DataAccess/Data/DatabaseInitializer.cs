@@ -2,13 +2,6 @@
 using K17221TutorDemand.Models.Enums;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace K17221TutorDemand.DataAccess.Data
 {
@@ -92,6 +85,9 @@ namespace K17221TutorDemand.DataAccess.Data
 
                 Console.WriteLine("--> Seeding Data");
 
+                //Subjects
+                await SeedSubjectAsync();
+
                 // Roles
                 await SeedRolesAsync();
 
@@ -118,20 +114,20 @@ namespace K17221TutorDemand.DataAccess.Data
 
                 var isSuccess = await _context.SaveChangesAsync() > 0;
 
-                if(isSuccess) Console.WriteLine("--> Seeding Data Successfully");
+                if (isSuccess) Console.WriteLine("--> Seeding Data Successfully");
             }
             catch (Exception)
             {
                 throw;
             }
         }
-    
+
 
         //  Summary:
         //      Seed all role data 
         private async Task SeedRolesAsync()
         {
-            foreach(var role in Enum.GetValues(typeof(RoleAccount)))
+            foreach (var role in Enum.GetValues(typeof(RoleAccount)))
             {
                 if (role is null) continue;
 
@@ -154,15 +150,37 @@ namespace K17221TutorDemand.DataAccess.Data
                 }
             }
         }
-    
-        
+
+        private async Task SeedSubjectAsync()
+        {
+            // List of subjects to seed
+            var subjects = new List<Subject>
+            {
+                new Subject { Name = "ReactJs", SubjectId = Guid.NewGuid(), Image = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR4d-qz5zSkMYCbYyezUQ0MQmP1pcVG6dAAlX06SeXDcA&s" },
+                new Subject { Name = "NestJs", SubjectId = Guid.NewGuid(), Image = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRd9dnsXqD_YMxZ0cYV2TDOfVBncH9SSIl_3pgnIMhzzA&s" },
+                new Subject { Name = "NodeJs", SubjectId = Guid.NewGuid(), Image = "https://maychusaigon.vn/wp-content/uploads/2023/06/dinh-nghia-nodejs-la-gi-maychusaigon.jpg" }
+            };
+            foreach (var subject in subjects)
+            {
+                if (await _context.Set<Subject>().AnyAsync(s => s.Name == subject.Name))
+                {
+                    continue; // Subject already exists, skip it
+                }
+
+                await _context.Set<Subject>().AddAsync(subject);
+            }
+
+            await _context.SaveChangesAsync();
+        }
+
+
         //  Summary:
         //      Seed users data include (List<string> email, RoleAccount role)
         private async Task SeedUsersAsync(List<string> emails, RoleAccount role)
         {
-            foreach(var email in emails)
+            foreach (var email in emails)
             {
-                if(_userManager.Users.All(x => x.Email != email))
+                if (_userManager.Users.All(x => x.Email != email))
                 {
                     var userId = Guid.NewGuid();
                     var user = new User
@@ -214,8 +232,8 @@ namespace K17221TutorDemand.DataAccess.Data
                 }
             }
         }
-    
-        
+
+
         //  Summary:
         //      Seed profile for users
         private async Task<Profile> SeedProfileAsync(Guid userId)
