@@ -227,7 +227,7 @@ namespace K17221TutorDemand.DataAccess.Data
             {
                 UserId = userId,
                 Avatar = $"/images/default-avatar.jpg",
-                Album = "",
+                Album = "[]",
                 Nickname = $"Nickname",
                 Bio = $"This is the biography of user.",
                 Gender = genders.GetValue(random.Next(genders.Length))!.ToString(),
