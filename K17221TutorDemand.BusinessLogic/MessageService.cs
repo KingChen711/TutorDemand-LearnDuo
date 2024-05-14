@@ -18,7 +18,7 @@ public class MessageService : IMessageService
     public async Task CreateMessage(MessageCreationDto messageDto)
     {
         var message = messageDto.Adapt<Message>();
-        _unitOfWork.Message.Create(message);
+        _unitOfWork.Message.Create(message); 
         await _unitOfWork.SaveAsync();
     }
 }
