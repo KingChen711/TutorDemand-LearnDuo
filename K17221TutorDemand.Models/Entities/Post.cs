@@ -42,4 +42,6 @@ public class Post
     public User Tutor { get; set; } = null!;
     public Subject Subject { get; set; } = null!;
     public ICollection<Reservation> Reservations = [];
+    public ICollection<Comment> Comments = [];
+    public ICollection<User> LikeUsers { get; set; } = [];
 }

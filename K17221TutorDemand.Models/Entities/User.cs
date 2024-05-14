@@ -18,4 +18,7 @@ public class User : IdentityUser<int>
     public ICollection<Reservation> Reservations = [];
     public ICollection<Message> ReceivedMessages = [];
     public ICollection<Message> SendMessages = [];
+    public ICollection<Comment> Comments = [];
+    public ICollection<Comment> LikeComments = [];
+    public ICollection<Post> LikePosts = [];
 }

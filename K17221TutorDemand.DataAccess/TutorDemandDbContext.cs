@@ -16,6 +16,7 @@ public class TutorDemandDbContext : IdentityDbContext<User, Role, int>
     {
     }
 
+    public DbSet<Feedback> Comments { get; set; }
     public DbSet<Feedback> Feedbacks { get; set; }
     public DbSet<Hub> Hubs { get; set; }
     public DbSet<Message> Messages { get; set; }
@@ -47,6 +48,7 @@ public class TutorDemandDbContext : IdentityDbContext<User, Role, int>
     {
         base.OnModelCreating(modelBuilder);
 
+        modelBuilder.ApplyConfiguration(new CommentConfiguration());
         modelBuilder.ApplyConfiguration(new RoleConfiguration());
         modelBuilder.ApplyConfiguration(new UserConfiguration());
         modelBuilder.ApplyConfiguration(new FeedbackConfiguration());

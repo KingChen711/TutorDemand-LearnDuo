@@ -4,38 +4,38 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace K17221TutorDemand.DataAccess.Configurations;
 
-public class PostConfiguration : IEntityTypeConfiguration<Post>
+public class CommentConfiguration : IEntityTypeConfiguration<Comment>
 {
-    public void Configure(EntityTypeBuilder<Post> builder)
+    public void Configure(EntityTypeBuilder<Comment> builder)
     {
         builder
-            .Property(e => e.PostId)
+            .Property(e => e.CommentId)
             .HasDefaultValueSql("NEWSEQUENTIALID()")
             .ValueGeneratedOnAdd();
 
         builder
-            .HasIndex(e => e.PostId)
+            .HasIndex(e => e.CommentId)
             .IsUnique();
 
         builder
-            .HasOne(d => d.Tutor)
-            .WithMany(p => p.Posts)
+            .HasOne(d => d.User)
+            .WithMany(p => p.Comments)
             .HasPrincipalKey(p => p.UserId)
-            .HasForeignKey(d => d.TutorId)
-            .OnDelete(DeleteBehavior.Cascade);
+            .HasForeignKey(d => d.CommentId)
+            .OnDelete(DeleteBehavior.Restrict);
 
         builder
-            .HasOne(d => d.Subject)
-            .WithMany(p => p.Posts)
-            .HasPrincipalKey(p => p.SubjectId)
-            .HasForeignKey(d => d.SubjectId)
+            .HasOne(d => d.Post)
+            .WithMany(p => p.Comments)
+            .HasPrincipalKey(p => p.PostId)
+            .HasForeignKey(d => d.CommentId)
             .OnDelete(DeleteBehavior.Cascade);
 
         builder
             .HasMany(s => s.LikeUsers)
-            .WithMany(c => c.LikePosts)
+            .WithMany(c => c.LikeComments)
             .UsingEntity(
-                "PostUserLikes",
+                "CommentUserLikes",
                 l => l
                     .HasOne(typeof(User))
                     .WithMany()
@@ -43,13 +43,12 @@ public class PostConfiguration : IEntityTypeConfiguration<Post>
                     .HasPrincipalKey(nameof(User.UserId))
                     .OnDelete(DeleteBehavior.Restrict),
                 r => r
-                    .HasOne(typeof(Post))
+                    .HasOne(typeof(Comment))
                     .WithMany()
-                    .HasForeignKey("PostId")
-                    .HasPrincipalKey(nameof(Post.PostId))
+                    .HasForeignKey("CommentId")
+                    .HasPrincipalKey(nameof(Comment.CommentId))
                     .OnDelete(DeleteBehavior.Cascade),
                 j => j
-                    .HasKey("UserId", "PostId"));
+                    .HasKey("UserId", "CommentId"));
     }
 }
-
