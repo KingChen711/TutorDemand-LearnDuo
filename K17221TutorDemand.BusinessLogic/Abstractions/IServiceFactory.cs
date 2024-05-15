@@ -8,4 +8,6 @@ public interface IServiceFactory
     IProfileService Profile { get; }
     IEmailSender Email { get; }
     IPostService Post { get; }
+    IImageService Image { get; }
+    ISubjectService Subject { get; }
 }

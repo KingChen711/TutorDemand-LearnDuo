@@ -10,8 +10,8 @@ namespace K17221TutorDemand.DataAccess
         private readonly Lazy<IUserRepository> _userRepository;
         private readonly Lazy<IMessageRepository> _messageRepository;
         private readonly Lazy<IProfileRepository> _profileRepository;
-        private readonly Lazy<IImagesRepository> _imagesRepository;
         private readonly Lazy<IPostRepository> _postRepository;
+        private readonly Lazy<ISubjectRepository> _subjectRepository;
 
         public UnitOfWork(TutorDemandDbContext context, IConfiguration configuration)
         {
@@ -24,20 +24,19 @@ namespace K17221TutorDemand.DataAccess
                 MessageRepository(context));
             _profileRepository = new Lazy<IProfileRepository>(() => new
                 ProfileRepository(context));
-            _imagesRepository = new Lazy<IImagesRepository>(() => new
-                ImagesRepository(context, configuration));
             _postRepository = new Lazy<IPostRepository>(() => new
                 PostRepository(context));
+            _subjectRepository = new Lazy<ISubjectRepository>(() => new
+                SubjectRepository(context));
         }
 
         public IHubRepository Hub => _hubRepository.Value;
         public IUserRepository User => _userRepository.Value;
         public IMessageRepository Message => _messageRepository.Value;
         public IProfileRepository Profile => _profileRepository.Value;
-
-        public IImagesRepository Images => _imagesRepository.Value;
-
         public IPostRepository Post => _postRepository.Value;
+
+        public ISubjectRepository Subject => _subjectRepository.Value;
 
         public Task SaveAsync() => _context.SaveChangesAsync();
     }

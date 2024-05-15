@@ -1,25 +1,24 @@
 ﻿using CloudinaryDotNet;
+using K17221TutorDemand.BusinessLogic.Abstractions;
 using K17221TutorDemand.DataAccess.Abstractions;
-using K17221TutorDemand.Models.Entities;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace K17221TutorDemand.DataAccess
+namespace K17221TutorDemand.BusinessLogic
 {
-    public class ImagesRepository : GenericRepository<Post>, IImagesRepository
+    public class ImageService : IImageService
     {
-        private readonly TutorDemandDbContext context;
-        private readonly IConfiguration configuration;
+        private IUnitOfWork unitOfWork;
+        private IConfiguration configuration;
 
-        public ImagesRepository(TutorDemandDbContext context, IConfiguration configuration) : base(context)
+        public ImageService(IUnitOfWork unitOfWork, IConfiguration configuration)
         {
-            this.context = context;
+            this.unitOfWork = unitOfWork;
             this.configuration = configuration;
         }
 
@@ -41,5 +40,4 @@ namespace K17221TutorDemand.DataAccess
             return null;
         }
     }
-
 }

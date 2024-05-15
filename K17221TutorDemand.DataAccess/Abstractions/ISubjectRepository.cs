@@ -1,5 +1,4 @@
 ﻿using K17221TutorDemand.Models.Entities;
-using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,8 +7,7 @@ using System.Threading.Tasks;
 
 namespace K17221TutorDemand.DataAccess.Abstractions
 {
-    public interface IImagesRepository : IGenericRepository<Post>
+    public interface ISubjectRepository : IGenericRepository<Subject>
     {
-        Task<string> UploadAsync(IFormFile file);
     }
 }
