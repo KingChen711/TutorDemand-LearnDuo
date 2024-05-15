@@ -6,5 +6,7 @@ public interface IUnitOfWork
     IProfileRepository Profile { get; }
     IUserRepository User { get; }
     IMessageRepository Message { get; }
+    IPostRepository Post { get; }
+    ISubjectRepository Subject { get; }
     Task SaveAsync();
 }
